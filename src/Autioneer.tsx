@@ -5,12 +5,12 @@ const Asdf = styled.div`
   color: red;
 `;
 
-function Menu() {
+function Autioneer() {
   return (
     <>
-      <Asdf>zxcvasdfqwer</Asdf>
+      <Asdf>Autioneer</Asdf>
     </>
   );
 }
 
-export default Menu;
+export default Autioneer;
