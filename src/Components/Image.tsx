@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-//${(props)=>props.zAxis}
 const Container = styled.div`
-
   input[type="file"] {
     position: absolute;
     width: 0;
@@ -24,19 +22,19 @@ const Label = styled.label`
   cursor: pointer;
   height: 20px;
   margin-left: 20px;
-  margin-top: 100px;
+  margin-top: 20px;
 `;
 
 const View = styled.input`
   display: inline-block;
   height: 40px;
   padding: 0 10px;
-  margin-top: 100px;
   margin-left: 25px;
   vertical-align: middle;
   border: 1px solid black;
   width: 60%;
   color: #999999;
+  margin-top: 20px;
 `;
 
 const Image = styled.img`
@@ -44,9 +42,16 @@ const Image = styled.img`
   margin-top: 100px;
   width: 400px;
   height: 400px;
+  border-radius: 10px;
 `;
 
-const SelectImg = () => {
+let Date: string;
+
+interface ImgProps {
+  IBidderCallback: (date: string, imgData: any) => void;
+}
+
+const SelectImg: React.FC<ImgProps> = ({ IBidderCallback }) => {
   const [picture, setPicture] = useState("첨부파일");
   const [attachment, setAttachment] = useState<any>();
   const png = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,9 +68,18 @@ const SelectImg = () => {
       };
       reader.readAsDataURL(files[0]);
       setPicture(files[0].name);
-    } else {
-      alert("No File");
     }
+  };
+
+  useEffect(() => {
+    IBidderCallback(Date, attachment);
+  });
+
+  const setDate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = event;
+    Date = value;
   };
 
   return (
@@ -73,6 +87,7 @@ const SelectImg = () => {
       <Container>
         <div>Picture</div>
         <Image src={attachment} />
+        <input onChange={setDate} style={{ marginLeft: "25px" }} type="date" />
         <View placeholder={picture} />
         <Label htmlFor="file">파일찾기</Label>
         <input type="file" onChange={png} id="file" />

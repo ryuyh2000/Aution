@@ -16,16 +16,16 @@ const TextLength = styled.span<{ overLength: boolean }>`
 `;
 
 interface ExplainProps {
-  EBidderCallback: (text: string) => void;
+  PBidderCallback: (text: string) => void;
 }
 
 let SENTENCE: string;
 
-const Explain: React.FC<ExplainProps> = ({ EBidderCallback }) => {
+const Portfolio: React.FC<ExplainProps> = ({ PBidderCallback }) => {
   const [textleng, setTextlen] = React.useState(0);
   const [over, setOver] = React.useState(false);
 
-  const explainText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const portfolioText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
       target: { value },
     } = event;
@@ -39,13 +39,13 @@ const Explain: React.FC<ExplainProps> = ({ EBidderCallback }) => {
   };
 
   useEffect(() => {
-    EBidderCallback(SENTENCE);
+    PBidderCallback(SENTENCE);
   });
 
   return (
     <Container>
-      Explain
-      <ExplainBox onChange={explainText} />
+      Portfolio
+      <ExplainBox onChange={portfolioText} />
       <p>
         <TextLength overLength={over} style={{ marginLeft: "400px" }}>
           {`${textleng}`}
@@ -56,4 +56,4 @@ const Explain: React.FC<ExplainProps> = ({ EBidderCallback }) => {
   );
 };
 
-export default Explain;
+export default Portfolio;
