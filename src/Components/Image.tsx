@@ -71,6 +71,7 @@ const SelectImg = () => {
   return (
     <>
       <Container>
+        <div>Picture</div>
         <Image src={attachment} />
         <View placeholder={picture} />
         <Label htmlFor="file">파일찾기</Label>
