@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Route, Routes } from "react-router-dom";
-import Home from "./Home";
-import Autioneer from "./Autioneer";
-import Bidder from "./Bidder";
+import Home from "./Page/Home";
+import Autioneer from "./Page/Autioneer";
+import Bidder from "./Page/Bidder";
 
 const Router = () => {
   return (

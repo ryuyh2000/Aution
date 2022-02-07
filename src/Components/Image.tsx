@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import firebase from "firebase/compat/app";
-import { finished } from "stream";
-
+//${(props)=>props.zAxis}
 const Container = styled.div`
+
   input[type="file"] {
     position: absolute;
     width: 0;
@@ -24,20 +23,30 @@ const Label = styled.label`
   background-color: #999999;
   cursor: pointer;
   height: 20px;
-  margin-left: 10px;
+  margin-left: 20px;
+  margin-top: 100px;
 `;
 
 const View = styled.input`
   display: inline-block;
   height: 40px;
   padding: 0 10px;
+  margin-top: 100px;
+  margin-left: 25px;
   vertical-align: middle;
-  border: 1px solid #dddddd;
-  width: 25%;
+  border: 1px solid black;
+  width: 60%;
   color: #999999;
 `;
 
-function Bidder() {
+const Image = styled.img`
+  margin-left: 50px;
+  margin-top: 100px;
+  width: 400px;
+  height: 400px;
+`;
+
+const SelectImg = () => {
   const [picture, setPicture] = useState("첨부파일");
   const [attachment, setAttachment] = useState<any>();
   const png = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,14 +69,15 @@ function Bidder() {
   };
 
   return (
-    <Container>
-      <div>Bidder</div>
-      <View placeholder={picture} />
-      <Label htmlFor="file">파일찾기</Label>
-      <input type="file" onChange={png} id="file" />
-      <img src={attachment} />
-    </Container>
+    <>
+      <Container>
+        <Image src={attachment} />
+        <View placeholder={picture} />
+        <Label htmlFor="file">파일찾기</Label>
+        <input type="file" onChange={png} id="file" />
+      </Container>
+    </>
   );
-}
+};
 
-export default Bidder;
+export default SelectImg;
