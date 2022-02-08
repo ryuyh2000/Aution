@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { storageService } from "../Firebase";
+import { ref,uploadString } from "@firebase/storage";
+import { v4 as uuidv4 } from "uuid";
+
 const Container = styled.div`
   input[type="file"] {
     position: absolute;
@@ -82,9 +86,16 @@ const SelectImg: React.FC<ImgProps> = ({ IBidderCallback }) => {
     Date = value;
   };
 
+  const onSubmit = async () => {
+    const fileRef = ref(storageService,`${uuidv4()}`)
+    const response = await uploadString(fileRef, attachment, "data_url");
+    console.log(response);
+  };
+
   return (
     <>
       <Container>
+        <button onClick={onSubmit}>1111111111111111111111111111111111</button>
         <div>Picture</div>
         <Image src={attachment} />
         <input onChange={setDate} style={{ marginLeft: "25px" }} type="date" />
