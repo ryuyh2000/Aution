@@ -3,6 +3,9 @@ import styled from "styled-components";
 import Image from "../Components/Image";
 import Explain from "../Components/Explain";
 import Portfolio from "../Components/Portfolio";
+import { storageService } from "../Firebase";
+import { ref, uploadString } from "@firebase/storage";
+import { v4 as uuidv4 } from "uuid";
 
 const ImgContainer = styled.div<{ ImgZAxis: number }>`
   position: absolute;
@@ -45,6 +48,7 @@ let EXPLAINTEXT: string;
 let PORTFOLIOTEXT: string;
 let DATE: string;
 let IMGDATA: any;
+let USERID=uuidv4();
 
 const Bidder = ({}) => {
   const [image, setImage] = React.useState(3);
@@ -82,20 +86,28 @@ const Bidder = ({}) => {
     IMGDATA = imgData;
   };
 
+  const onSubmit = async () => {
+    if (IMGDATA != undefined) {
+      const fileRef = ref(storageService, `${USERID}`);
+      const response = await uploadString(fileRef, IMGDATA, "data_url");
+    } else {
+      alert("put picture");
+    }
+  };
+
   return (
     <div>
       <div>Cosigner</div>
       <ImgContainer onClick={imageZAxis} ImgZAxis={image}>
         <Image IBidderCallback={handleImg} />
       </ImgContainer>
-
       <ExplainContainer onClick={explanZAxis} ExplainZAxis={explain}>
         <Explain EBidderCallback={handleExplain} />
       </ExplainContainer>
-
       <PortfolioContainer onClick={portfolioZAxis} PortfolioZAxis={portfolio}>
         <Portfolio PBidderCallback={handlePortfolio} />
       </PortfolioContainer>
+      <button onClick={onSubmit}>1111111111111111111111111111111111</button>;
     </div>
   );
 };

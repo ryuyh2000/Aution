@@ -3,11 +3,16 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./Page/Home";
 import Bidder from "./Page/Bidder";
 import Cosigner from "./Page/Cosigner ";
+import Login from "./Page/Login";
 
-const Router = () => {
+interface Authentication {
+  inLoggedIn: any;
+}
+
+const Router: React.FC<Authentication> = ({ inLoggedIn }) => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={inLoggedIn ? <Home /> : <Login />} />
       <Route path="/bidder" element={<Bidder />} />
       <Route path="/cosigner" element={<Cosigner />} />
     </Routes>
