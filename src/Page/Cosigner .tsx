@@ -48,7 +48,6 @@ let EXPLAINTEXT: string;
 let PORTFOLIOTEXT: string;
 let DATE: string;
 let IMGDATA: any;
-let USERID=uuidv4();
 
 const Bidder = ({}) => {
   const [image, setImage] = React.useState(3);
@@ -88,7 +87,10 @@ const Bidder = ({}) => {
 
   const onSubmit = async () => {
     if (IMGDATA != undefined) {
-      const fileRef = ref(storageService, `${USERID}`);
+      const fileRef = ref(
+        storageService,
+        `${localStorage.getItem("email")} ${uuidv4()}`
+      );
       const response = await uploadString(fileRef, IMGDATA, "data_url");
     } else {
       alert("put picture");

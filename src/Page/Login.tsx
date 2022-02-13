@@ -8,7 +8,6 @@ import React from "react";
 const Login = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [newAccount, setNewAccount] = React.useState(true);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
@@ -21,26 +20,26 @@ const Login = () => {
       setPassword(value);
     }
   };
-
-  const submit = async () => {
+  const logIn = async () => {
     try {
-      if (newAccount) {
-          console.log('asdf')
-        const data = await createUserWithEmailAndPassword(
-          authService,
-          email,
-          password
-        );
-        console.log(data);
-      } else {
-        console.log('zxc')
-        const data = await signInWithEmailAndPassword(
-          authService,
-          email,
-          password
-        );
-        console.log(data);
-      }
+      const data = await signInWithEmailAndPassword(
+        authService,
+        email,
+        password
+      );
+      localStorage.setItem("email", email);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const newAccount = async () => {
+    try {
+      const data = await createUserWithEmailAndPassword(
+        authService,
+        email,
+        password
+      );
     } catch (error) {
       console.log(error);
     }
@@ -56,7 +55,10 @@ const Login = () => {
         placeholder="Password"
         onChange={onChange}
       />
-      <input onClick={submit} type="submit" value="Log In" />
+      <br />
+
+      <button onClick={logIn}>Log In</button>
+      <button onClick={newAccount}>New Account</button>
       <button>continue with google</button>
     </>
   );
