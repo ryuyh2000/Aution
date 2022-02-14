@@ -1,5 +1,5 @@
 import React from "react";
-
+import { storageService } from "../Firebase";
 
 //firebase 연동
 

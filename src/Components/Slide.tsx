@@ -1,11 +1,19 @@
 import React from "react";
-import { storageService } from "../Firebase";
+
 
 const Slide = () => {
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setCount(count + 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  });
 
   return (
     <>
-      <div>Slide</div>
+      <div>asdasd{count}</div>
     </>
   );
 };

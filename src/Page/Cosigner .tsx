@@ -3,9 +3,10 @@ import styled from "styled-components";
 import Image from "../Components/Image";
 import Explain from "../Components/Explain";
 import Portfolio from "../Components/Portfolio";
-import { storageService } from "../Firebase";
-import { ref, uploadString } from "@firebase/storage";
+import { dbService, storageService } from "../Firebase";
+import { getDownloadURL, ref, uploadString } from "@firebase/storage";
 import { v4 as uuidv4 } from "uuid";
+import { addDoc, collection } from "firebase/firestore";
 
 const ImgContainer = styled.div<{ ImgZAxis: number }>`
   position: absolute;
@@ -44,15 +45,15 @@ const PortfolioContainer = styled.div<{ PortfolioZAxis: number }>`
   background-color: #fdf5e6;
 `;
 
-let EXPLAINTEXT: string;
-let PORTFOLIOTEXT: string;
-let DATE: string;
-let IMGDATA: any;
-
 const Bidder = ({}) => {
   const [image, setImage] = React.useState(3);
   const [explain, setExplain] = React.useState(2);
   const [portfolio, setPortfolio] = React.useState(1);
+
+  const [explainText, setExplainText] = React.useState("");
+  const [portfolioText, setPortfolioText] = React.useState("");
+  const [dateText, setdateText] = React.useState("");
+  const [imgText, setImgText] = React.useState<any>();
 
   const imageZAxis = () => {
     zAxis(3, 2, 1);
@@ -73,25 +74,35 @@ const Bidder = ({}) => {
   };
 
   const handleExplain = (EText: string) => {
-    EXPLAINTEXT = EText;
+    setExplainText(EText);
   };
 
   const handlePortfolio = (PText: string) => {
-    PORTFOLIOTEXT = PText;
+    setPortfolioText(PText);
   };
 
   const handleImg = (date: string, imgData: any) => {
-    DATE = date;
-    IMGDATA = imgData;
+    setdateText(date);
+    setImgText(imgData);
   };
 
   const onSubmit = async () => {
-    if (IMGDATA != undefined) {
+    if (imgText != undefined) {
       const fileRef = ref(
         storageService,
-        `${localStorage.getItem("email")} ${uuidv4()}`
+        `${localStorage.getItem("email")}/ ${uuidv4()}`
       );
-      const response = await uploadString(fileRef, IMGDATA, "data_url");
+      const response = await uploadString(fileRef, imgText, "data_url");
+      const attachmentUrl = await getDownloadURL(response.ref);
+
+      const postData = {
+        explainText,
+        portfolioText,
+        dateText,
+        imgText,
+      };
+      await addDoc(collection(dbService, "data"), postData);
+      /*  await addDoc(collection(db, "data"), postData); */
     } else {
       alert("put picture");
     }
@@ -103,13 +114,18 @@ const Bidder = ({}) => {
       <ImgContainer onClick={imageZAxis} ImgZAxis={image}>
         <Image IBidderCallback={handleImg} />
       </ImgContainer>
+
       <ExplainContainer onClick={explanZAxis} ExplainZAxis={explain}>
         <Explain EBidderCallback={handleExplain} />
       </ExplainContainer>
       <PortfolioContainer onClick={portfolioZAxis} PortfolioZAxis={portfolio}>
         <Portfolio PBidderCallback={handlePortfolio} />
       </PortfolioContainer>
-      <button onClick={onSubmit}>1111111111111111111111111111111111</button>;
+      {explainText && portfolioText && dateText && imgText != undefined ? (
+        <button onClick={onSubmit}>Post</button>
+      ) : (
+        <button disabled>Post</button>
+      )}
     </div>
   );
 };
