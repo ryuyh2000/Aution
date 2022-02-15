@@ -87,24 +87,28 @@ const Bidder = ({}) => {
   };
 
   const onSubmit = async () => {
-    if (imgText != undefined) {
-      const fileRef = ref(
-        storageService,
-        `${localStorage.getItem("email")}/ ${uuidv4()}`
-      );
-      const response = await uploadString(fileRef, imgText, "data_url");
-      const attachmentUrl = await getDownloadURL(response.ref);
+    try {
+      if (imgText != undefined) {
+        const fileRef = ref(
+          storageService,
+          `${localStorage.getItem("email")}/ ${uuidv4()}`
+        );
+        const response = await uploadString(fileRef, imgText, "data_url");
+        const attachmentUrl = await getDownloadURL(response.ref);
 
-      const postData = {
-        explainText,
-        portfolioText,
-        dateText,
-        imgText,
-      };
-      await addDoc(collection(dbService, "data"), postData);
-      /*  await addDoc(collection(db, "data"), postData); */
-    } else {
-      alert("put picture");
+        const postData = {
+          explainText,
+          portfolioText,
+          dateText,
+          attachmentUrl,
+        };
+
+        const cloudData = await addDoc(collection(dbService, "data"), postData);
+      } else {
+        alert("put picture");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -118,6 +122,7 @@ const Bidder = ({}) => {
       <ExplainContainer onClick={explanZAxis} ExplainZAxis={explain}>
         <Explain EBidderCallback={handleExplain} />
       </ExplainContainer>
+      
       <PortfolioContainer onClick={portfolioZAxis} PortfolioZAxis={portfolio}>
         <Portfolio PBidderCallback={handlePortfolio} />
       </PortfolioContainer>

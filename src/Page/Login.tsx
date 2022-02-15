@@ -46,6 +46,7 @@ const Login = () => {
       setPassword(value);
     }
   };
+  
   const logIn = async () => {
     try {
       const data = await signInWithEmailAndPassword(
