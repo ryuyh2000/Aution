@@ -7,7 +7,7 @@ import React from "react";
 import styled from "styled-components";
 import Slide from "../Components/Slide";
 
-const Container = styled.div`
+const LoginContainer = styled.div`
   width: 300px;
   background-color: #a0a0ff37;
   height: 100vh;
@@ -31,6 +31,13 @@ const Btn = styled.button`
   margin-right: 40px;
 `;
 
+const SlideContainer = styled.div`
+  width: 80%;
+  height: 500px;
+  background-color: #7b68ee;
+  margin-top: 100px;
+`;
+
 const Login = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -46,7 +53,7 @@ const Login = () => {
       setPassword(value);
     }
   };
-  
+
   const logIn = async () => {
     try {
       const data = await signInWithEmailAndPassword(
@@ -73,8 +80,8 @@ const Login = () => {
   };
 
   return (
-    <>
-      <Container>
+    <div style={{ display: "flex" }}>
+      <LoginContainer>
         <AuthForm>
           <Auth
             name="email"
@@ -82,6 +89,7 @@ const Login = () => {
             placeholder="Email"
             onChange={onChange}
           />
+
           <Auth
             name="password"
             type="password"
@@ -94,8 +102,10 @@ const Login = () => {
           <Btn onClick={logIn}>Log In</Btn>
           <Btn onClick={newAccount}>New Account</Btn>
         </BtnForm>
-      </Container>
-    </>
+      </LoginContainer>
+
+      <SlideContainer>Slide</SlideContainer>
+    </div>
   );
 };
 

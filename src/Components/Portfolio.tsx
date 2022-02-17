@@ -11,6 +11,17 @@ const ExplainBox = styled.textarea`
   resize: none;
 `;
 
+const Labeling = styled.div`
+  width: 50px;
+  height: 100px;
+  background-color: #4b4bff;
+  position: absolute;
+  left: 100%;
+  top: 200px;
+  border-radius: 0px 10px 10px 0px;
+  box-shadow: 5px 5px 20px #aaaaaa;
+`;
+
 const TextLength = styled.span<{ overLength: boolean }>`
   color: ${(props) => (props.overLength ? "red" : "black")};
 `;
@@ -43,16 +54,19 @@ const Portfolio: React.FC<ExplainProps> = ({ PBidderCallback }) => {
   });
 
   return (
-    <Container>
-      Portfolio
-      <ExplainBox onChange={portfolioText} />
-      <p>
-        <TextLength overLength={over} style={{ marginLeft: "400px" }}>
-          {`${textleng}`}
-        </TextLength>
-        /400
-      </p>
-    </Container>
+    <>
+      <Labeling />
+      <Container>
+        Portfolio
+        <ExplainBox onChange={portfolioText} />
+        <p>
+          <TextLength overLength={over} style={{ marginLeft: "400px" }}>
+            {`${textleng}`}
+          </TextLength>
+          /400
+        </p>
+      </Container>
+    </>
   );
 };
 

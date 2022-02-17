@@ -4,6 +4,7 @@ import Home from "./Page/Home";
 import Bidder from "./Page/Bidder";
 import Cosigner from "./Page/Cosigner ";
 import Login from "./Page/Login";
+import Header from "./Components/Header";
 
 interface Authentication {
   inLoggedIn: any;
@@ -11,11 +12,14 @@ interface Authentication {
 
 const Router: React.FC<Authentication> = ({ inLoggedIn }) => {
   return (
-    <Routes>
-      <Route path="/" element={inLoggedIn ? <Home /> : <Login />} />
-      <Route path="/bidder" element={<Bidder />} />
-      <Route path="/cosigner" element={<Cosigner />} />
-    </Routes>
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={inLoggedIn ? <Home /> : <Login />} />
+        <Route path="/bidder" element={<Bidder />} />
+        <Route path="/cosigner" element={<Cosigner />} />
+      </Routes>
+    </>
   );
 };
 

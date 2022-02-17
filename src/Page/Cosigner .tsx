@@ -45,6 +45,19 @@ const PortfolioContainer = styled.div<{ PortfolioZAxis: number }>`
   background-color: #fdf5e6;
 `;
 
+const PostBtn = styled.button<{ filledData: boolean }>`
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  top: 85%;
+  width: 300px;
+  height: 100px;
+  border: solid 1px rgba(0, 0, 0, 0.295);
+  border-radius: 10px;
+  background-color: #fdf5e6;
+  font-size: 50px;
+`;
+
 const Bidder = ({}) => {
   const [image, setImage] = React.useState(3);
   const [explain, setExplain] = React.useState(2);
@@ -89,12 +102,20 @@ const Bidder = ({}) => {
   const onSubmit = async () => {
     try {
       if (imgText != undefined) {
-        const fileRef = ref(
+        const UUDI4 = uuidv4();
+
+        const userFileRef = ref(
           storageService,
-          `${localStorage.getItem("email")}/ ${uuidv4()}`
+          `${localStorage.getItem("email")}/ ${UUDI4}`
         );
-        const response = await uploadString(fileRef, imgText, "data_url");
-        const attachmentUrl = await getDownloadURL(response.ref);
+
+        const userResponse = await uploadString(
+          userFileRef,
+          imgText,
+          "data_url"
+        );
+
+        const attachmentUrl = await getDownloadURL(userResponse.ref);
 
         const postData = {
           explainText,
@@ -103,7 +124,15 @@ const Bidder = ({}) => {
           attachmentUrl,
         };
 
-        const cloudData = await addDoc(collection(dbService, "data"), postData);
+        const userData = await addDoc(
+          collection(dbService, `${localStorage.getItem("email")}`),
+          postData
+        );
+
+        const cloudData = await addDoc(
+          collection(dbService, `AllData`),
+          postData
+        );
       } else {
         alert("put picture");
       }
@@ -122,14 +151,19 @@ const Bidder = ({}) => {
       <ExplainContainer onClick={explanZAxis} ExplainZAxis={explain}>
         <Explain EBidderCallback={handleExplain} />
       </ExplainContainer>
-      
+
       <PortfolioContainer onClick={portfolioZAxis} PortfolioZAxis={portfolio}>
         <Portfolio PBidderCallback={handlePortfolio} />
       </PortfolioContainer>
+
       {explainText && portfolioText && dateText && imgText != undefined ? (
-        <button onClick={onSubmit}>Post</button>
+        <PostBtn filledData={true} onClick={onSubmit}>
+          Post
+        </PostBtn>
       ) : (
-        <button disabled>Post</button>
+        <PostBtn filledData={false} disabled>
+          Post
+        </PostBtn>
       )}
     </div>
   );

@@ -17,6 +17,16 @@ const Container = styled.div`
   }
 `;
 
+const Labeling = styled.div`
+  width: 50px;
+  height: 100px;
+  background-color: #ff5555;
+  position: absolute;
+  left: 100%;
+  border-radius: 0px 10px 10px 0px;
+  box-shadow: 5px 5px 20px #aaaaaa;
+`;
+
 const Label = styled.label`
   display: inline-block;
   padding: 10px 20px;
@@ -88,6 +98,7 @@ const SelectImg: React.FC<ImgProps> = ({ IBidderCallback }) => {
 
   return (
     <>
+      <Labeling />
       <Container>
         <div>Picture</div>
         <Image src={attachment} />
