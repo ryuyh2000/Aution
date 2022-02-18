@@ -133,6 +133,7 @@ const Bidder = ({}) => {
           collection(dbService, `AllData`),
           postData
         );
+        
       } else {
         alert("put picture");
       }
