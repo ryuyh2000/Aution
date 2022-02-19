@@ -13,7 +13,7 @@ interface Authentication {
 const Router: React.FC<Authentication> = ({ inLoggedIn }) => {
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <Routes>
         <Route path="/" element={inLoggedIn ? <Home /> : <Login />} />
         <Route path="/bidder" element={<Bidder />} />

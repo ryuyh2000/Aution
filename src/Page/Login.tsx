@@ -32,10 +32,11 @@ const Btn = styled.button`
 `;
 
 const SlideContainer = styled.div`
-  width: 80%;
-  height: 500px;
-  background-color: #7b68ee;
-  margin-top: 100px;
+  width: 500px;
+  height: 10px;
+  margin: 150px 0px 0px 700px;
+  background-color: #7c68ee57;
+  padding: 100px 0px 0px 100px;
 `;
 
 const Login = () => {
@@ -104,7 +105,9 @@ const Login = () => {
         </BtnForm>
       </LoginContainer>
 
-      <SlideContainer>Slide</SlideContainer>
+      <SlideContainer>
+        <Slide left={30} />
+      </SlideContainer>
     </div>
   );
 };
