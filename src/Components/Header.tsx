@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { authService } from "../Firebase";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Constainer = styled.div`
   display: flex;
@@ -37,12 +37,11 @@ const handleLogOut = () => {
 };
 
 const Header = () => {
-  const { pathname } = useLocation();
   return (
     <Constainer>
       <Menu to="/">Home</Menu>
       <Menu to="/cosigner">Cosigner</Menu>
-      <Menu to="/">Bidder</Menu>
+      <Menu to="/bidder">Bidder</Menu>
       {authService.currentUser ? (
         <LogOut onClick={handleLogOut}>
           <Menu to="/">Log Out</Menu>

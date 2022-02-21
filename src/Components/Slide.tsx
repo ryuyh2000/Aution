@@ -2,7 +2,6 @@ import React from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { dbService } from "../Firebase";
 import styled from "styled-components";
-import Autioneer from "../Page/Bidder";
 
 const SlideObject = styled.img<{ SOpacity: number; PPLength: number }>`
   position: absolute;

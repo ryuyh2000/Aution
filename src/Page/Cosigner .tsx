@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Image from "../Components/Image";
 import Explain from "../Components/Explain";
 import Portfolio from "../Components/Portfolio";
-import { dbService, storageService } from "../Firebase";
+import { authService, dbService, storageService } from "../Firebase";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import { addDoc, collection } from "firebase/firestore";
@@ -58,7 +58,7 @@ const PostBtn = styled.button<{ filledData: boolean }>`
   font-size: 50px;
 `;
 
-const Bidder = ({}) => {
+const Cosigner = ({}) => {
   const [image, setImage] = React.useState(3);
   const [explain, setExplain] = React.useState(2);
   const [portfolio, setPortfolio] = React.useState(1);
@@ -100,45 +100,49 @@ const Bidder = ({}) => {
   };
 
   const onSubmit = async () => {
-    try {
-      if (imgText != undefined) {
-        const UUDI4 = uuidv4();
+    if (authService.currentUser) {
+      try {
+        if (imgText != undefined) {
+          const UUDI4 = uuidv4();
 
-        const userFileRef = ref(
-          storageService,
-          `${localStorage.getItem("email")}/ ${UUDI4}`
-        );
+          const userFileRef = ref(
+            storageService,
+            `${localStorage.getItem("email")}/ ${UUDI4}`
+          );
 
-        const userResponse = await uploadString(
-          userFileRef,
-          imgText,
-          "data_url"
-        );
+          const userResponse = await uploadString(
+            userFileRef,
+            imgText,
+            "data_url"
+          );
 
-        const attachmentUrl = await getDownloadURL(userResponse.ref);
+          const attachmentUrl = await getDownloadURL(userResponse.ref);
 
-        const postData = {
-          explainText,
-          portfolioText,
-          dateText,
-          attachmentUrl,
-        };
+          const postData = {
+            explainText,
+            portfolioText,
+            dateText,
+            attachmentUrl,
+            email: authService.currentUser.email,
+          };
 
-        const userData = await addDoc(
-          collection(dbService, `${localStorage.getItem("email")}`),
-          postData
-        );
+          const userData = await addDoc(
+            collection(dbService, `${localStorage.getItem("email")}`),
+            postData
+          );
 
-        const cloudData = await addDoc(
-          collection(dbService, `AllData`),
-          postData
-        );
-        
-      } else {
-        alert("put picture");
+          const cloudData = await addDoc(
+            collection(dbService, `AllData`),
+            postData
+          );
+        } else {
+          alert("put picture");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      alert("login plz");
     }
   };
 
@@ -146,15 +150,15 @@ const Bidder = ({}) => {
     <div>
       <div>Cosigner</div>
       <ImgContainer onClick={imageZAxis} ImgZAxis={image}>
-        <Image IBidderCallback={handleImg} />
+        <Image ICosignerCallback={handleImg} />
       </ImgContainer>
 
       <ExplainContainer onClick={explanZAxis} ExplainZAxis={explain}>
-        <Explain EBidderCallback={handleExplain} />
+        <Explain ECosignerCallback={handleExplain} />
       </ExplainContainer>
 
       <PortfolioContainer onClick={portfolioZAxis} PortfolioZAxis={portfolio}>
-        <Portfolio PBidderCallback={handlePortfolio} />
+        <Portfolio PCosignerCallback={handlePortfolio} />
       </PortfolioContainer>
 
       {explainText && portfolioText && dateText && imgText != undefined ? (
@@ -170,4 +174,4 @@ const Bidder = ({}) => {
   );
 };
 
-export default Bidder;
+export default Cosigner;

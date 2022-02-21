@@ -27,12 +27,12 @@ const TextLength = styled.span<{ overLength: boolean }>`
 `;
 
 interface ExplainProps {
-  PBidderCallback: (text: string) => void;
+  PCosignerCallback: (text: string) => void;
 }
 
 let SENTENCE: string;
 
-const Portfolio: React.FC<ExplainProps> = ({ PBidderCallback }) => {
+const Portfolio: React.FC<ExplainProps> = ({ PCosignerCallback }) => {
   const [textleng, setTextlen] = React.useState(0);
   const [over, setOver] = React.useState(false);
 
@@ -50,7 +50,7 @@ const Portfolio: React.FC<ExplainProps> = ({ PBidderCallback }) => {
   };
 
   useEffect(() => {
-    PBidderCallback(SENTENCE);
+    PCosignerCallback(SENTENCE);
   });
 
   return (

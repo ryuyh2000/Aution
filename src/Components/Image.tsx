@@ -62,10 +62,10 @@ const Image = styled.img`
 let Date: string;
 
 interface ImgProps {
-  IBidderCallback: (date: string, imgData: any) => void;
+  ICosignerCallback: (date: string, imgData: any) => void;
 }
 
-const SelectImg: React.FC<ImgProps> = ({ IBidderCallback }) => {
+const SelectImg: React.FC<ImgProps> = ({ ICosignerCallback }) => {
   const [picture, setPicture] = useState("첨부파일");
   const [attachment, setAttachment] = useState<any>();
   const png = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +86,7 @@ const SelectImg: React.FC<ImgProps> = ({ IBidderCallback }) => {
   };
 
   useEffect(() => {
-    IBidderCallback(Date, attachment);
+    ICosignerCallback(Date, attachment);
   });
 
   const setDate = (event: React.ChangeEvent<HTMLInputElement>) => {
