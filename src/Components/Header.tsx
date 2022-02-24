@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Constainer = styled.div`
   display: flex;
-  position: absolute;
+  position: relative;
   z-index: 2;
   width: 100%;
   height: 40px;
@@ -41,7 +41,7 @@ const Header = () => {
     <Constainer>
       <Menu to="/">Home</Menu>
       <Menu to="/cosigner">Cosigner</Menu>
-      <Menu to="/bidder">Bidder</Menu>
+      <Menu to="/bidderDisplay">Bidder</Menu>
       {authService.currentUser ? (
         <LogOut onClick={handleLogOut}>
           <Menu to="/">Log Out</Menu>

@@ -1,7 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-const Container = styled.div``;
+const Picture = styled.img`
+  display: flex;
+  width: 200px;
+  height: 200px;
+  padding: 20px;
+  border: 1px black solid;
+  margin: 5px;
+`;
 
 interface BProps {
   imgUrl: string;
@@ -10,11 +17,10 @@ interface BProps {
 
 const BImgSpace: React.FC<BProps> = ({ imgUrl, date }) => {
   return (
-    <>
-      <div>
-        {imgUrl} {date}
-      </div>
-    </>
+    <div>
+      <Picture src={imgUrl} />
+      <div>{date}</div>
+    </div>
   );
 };
 
