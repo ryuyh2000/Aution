@@ -1,13 +1,14 @@
 import React from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { dbService } from "../Firebase";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const SlideObject = styled.img<{ SOpacity: number; PPLength: number }>`
   position: absolute;
   transform: translateX(-50%);
   left: 300px;
-  opacity: ${(props) => (props.SOpacity == props.PPLength - 1 ? 1 : 0)};
+  opacity: ${(props) => (props.SOpacity === props.PPLength - 1 ? 1 : 0)};
   transition: opacity 5s;
   width: 400px;
 `;
@@ -16,9 +17,20 @@ const SlideInfo = styled.div<{ SOpacity: number; PPLength: number }>`
   position: absolute;
   transform: translateX(-50%);
   left: 800px;
-  opacity: ${(props) => (props.SOpacity == props.PPLength - 1 ? 1 : 0)};
+  opacity: ${(props) => (props.SOpacity === props.PPLength - 1 ? 1 : 0)};
   transition: opacity 5s;
   width: 400px;
+`;
+
+const Container = styled.div<{ leftPersent: number }>`
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  left: ${(props) => props.leftPersent + "%"};
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  display: flex;
 `;
 
 interface PSlide {
@@ -35,7 +47,7 @@ const Slide: React.FC<PSlide> = ({ left }) => {
 
   const lenDataArr = () => {
     setPPicture(
-      PPicture.map((res) => (res == PPicture.length - 1 ? 0 : res + 1))
+      PPicture.map((res) => (res === PPicture.length - 1 ? 0 : res + 1))
     );
   };
 
@@ -46,7 +58,13 @@ const Slide: React.FC<PSlide> = ({ left }) => {
     const querySnapshot = await getDocs(collection(dbService, "AllData"));
     querySnapshot.forEach((doc) => {
       array.push(doc.data().attachmentUrl);
-      array2.push(doc.data());
+      array2.push({
+        id: doc.id,
+        dateText: doc.data().dateText,
+        attachmentUrl: doc.data().attachmentUrl,
+        portfolioText: doc.data().portfolioText,
+        email: doc.data().email,
+      });
       DIndexArray.push(DIndex);
       DIndex++;
     });
@@ -68,25 +86,11 @@ const Slide: React.FC<PSlide> = ({ left }) => {
   });
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        transform: "translateY(-50%)",
-        top: "50%",
-        left: `${left}%`,
-        width: "800px",
-        height: "600px",
-        overflow: "hidden",
-        display: "flex",
-      }}
-    >
-      <br />
-      <br />
-      <br />
+    <Container leftPersent={left}>
       {picture && (
         <>
           {picture.map((res: string, key: number) => (
-            <div key={key}>
+            <Link to={`/auction/${pictureInfo[key].id}`} key={key}>
               <SlideObject
                 PPLength={PPicture.length}
                 SOpacity={PPicture[key]}
@@ -99,11 +103,11 @@ const Slide: React.FC<PSlide> = ({ left }) => {
               <SlideInfo SOpacity={PPicture[key]} PPLength={PPicture.length}>
                 {pictureInfo[key].explainText}
               </SlideInfo>
-            </div>
+            </Link>
           ))}
         </>
       )}
-    </div>
+    </Container>
   );
 };
 //<div onMouseOver={() => console.log("a")}>asdfasdfasdfasd</div>

@@ -72,11 +72,9 @@ const Bidder = () => {
     <>
       <PictureContainer>
         {FData.map((res, index: number) => (
-          <>
-            <Link key={index} to={`/auction/${res.id}`}>
-              <BImgSpace imgUrl={res.attachmentUrl} date={res.dateText} />
-            </Link>
-          </>
+          <Link key={index} to={`/auction/${res.id}`}>
+            <BImgSpace imgUrl={res.attachmentUrl} date={res.dateText} />
+          </Link>
         ))}
       </PictureContainer>
       <MarketPrizeGraph />
