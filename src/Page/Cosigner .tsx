@@ -11,7 +11,7 @@ import { addDoc, collection } from "firebase/firestore";
 const ImgContainer = styled.div<{ ImgZAxis: number }>`
   position: absolute;
   box-shadow: 5px 5px 20px #aaaaaa;
-  left: 50%;
+  left: 70%;
   transform: translateX(-50%);
   z-index: ${(props) => props.ImgZAxis};
   width: 500px;
@@ -23,7 +23,7 @@ const ImgContainer = styled.div<{ ImgZAxis: number }>`
 const ExplainContainer = styled.div<{ ExplainZAxis: number }>`
   position: absolute;
   box-shadow: 1px 1px 20px #aaaaaa;
-  left: 51%;
+  left: 71%;
   transform: translateX(-50%);
   z-index: ${(props) => props.ExplainZAxis};
   width: 500px;
@@ -35,7 +35,7 @@ const ExplainContainer = styled.div<{ ExplainZAxis: number }>`
 const PortfolioContainer = styled.div<{ PortfolioZAxis: number }>`
   position: absolute;
   box-shadow: 1px 1px 20px #aaaaaa;
-  left: 52%;
+  left: 72%;
   transform: translateX(-50%);
   z-index: ${(props) => props.PortfolioZAxis};
   width: 500px;
@@ -48,14 +48,15 @@ const PortfolioContainer = styled.div<{ PortfolioZAxis: number }>`
 const PostBtn = styled.button<{ filledData: boolean }>`
   position: absolute;
   transform: translateX(-50%);
-  left: 50%;
-  top: 85%;
+  left: 30%;
+  top: 50%;
   width: 300px;
   height: 100px;
   border: solid 1px rgba(0, 0, 0, 0.295);
   border-radius: 10px;
   background-color: #fdf5e6;
   font-size: 50px;
+  color: ${(props) => (props.filledData ? "black" : "#b4b4b4")};
 `;
 
 const Cosigner = ({}) => {
@@ -147,8 +148,9 @@ const Cosigner = ({}) => {
   };
 
   return (
-    <div>
+    <>
       <div>Cosigner</div>
+
       <ImgContainer onClick={imageZAxis} ImgZAxis={image}>
         <Image ICosignerCallback={handleImg} />
       </ImgContainer>
@@ -170,7 +172,7 @@ const Cosigner = ({}) => {
           Post
         </PostBtn>
       )}
-    </div>
+    </>
   );
 };
 

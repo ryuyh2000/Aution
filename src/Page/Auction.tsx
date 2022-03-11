@@ -37,6 +37,13 @@ const Image = styled.img`
   border-radius: 10px;
 `;
 
+const TextBox = styled.div`
+  width: 400px;
+  height: 400px;
+  border: 2px black solid;
+  margin: 100px 0px 0px 50px;
+`;
+
 interface FDataType {
   dateText: string;
   attachmentUrl: string;
@@ -55,9 +62,13 @@ const Auction = () => {
     explainText: "",
     email: "",
   });
+  const [radioValue, setRadioValue] = React.useState([
+    "Explain Text",
+    "Portfolio Text",
+  ]);
+  const [radioCheck, setRadioCheck] = React.useState("Explain Text");
 
   const { pictureID } = useParams();
-
   const getData = async () => {
     const q = query(collection(dbService, "AllData"));
     onSnapshot(q, (snapshot) => {
@@ -89,12 +100,12 @@ const Auction = () => {
     getData();
   }, []);
 
-  function writeUserData() {
+  const writeUserData = () => {
     const { id, dateText, attachmentUrl, portfolioText, explainText, email } =
       FData;
 
     const db = getDatabase();
-    set(ref(db, `users/${FData.id}`), {
+    const sdf = set(ref(db, `users/${FData.id}`), {
       id,
       dateText,
       attachmentUrl,
@@ -102,7 +113,14 @@ const Auction = () => {
       explainText,
       email,
     });
-  }
+  };
+
+  const radioOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = event;
+    setRadioCheck(value);
+  };
 
   return (
     <>
@@ -111,20 +129,27 @@ const Auction = () => {
         <input type="number" placeholder="price" onChange={setPrice} />
         <button onClick={postPrice}>post</button>
       </Panel>
+
       <Panel2>
-        <div
-          style={{
-            width: "400px",
-            height: "400px",
-            border: " 2px black solid",
-            margin: "100px 0px 0px 50px",
-          }}
-        >
-          explain: {FData.explainText}
-          <br />
-          portfolio: {FData.portfolioText}
-        </div>
-        <input type="radio" />
+        <TextBox>
+          {radioCheck === "Explain Text" ? (
+            <>explain: {FData.explainText}</>
+          ) : (
+            <>portfolio: {FData.portfolioText}</>
+          )}
+        </TextBox>
+        {radioValue.map((value, key) => (
+          <React.Fragment key={key}>
+            <input
+              value={value}
+              type="radio"
+              name="radioBtn"
+              checked={radioCheck === value}
+              onChange={radioOnChange}
+            />
+            <label>{value}</label>
+          </React.Fragment>
+        ))}
         <br />
         date: {FData.dateText}
         <br />
