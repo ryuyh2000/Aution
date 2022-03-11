@@ -1,9 +1,9 @@
 import React from "react";
-import { collection, getDocs, onSnapshot, query } from "firebase/firestore";
+import { collection, onSnapshot, query } from "firebase/firestore";
 import { dbService } from "../Firebase";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getDatabase, ref, set } from "firebase/database";
+/* getDocs import { getDatabase, ref, set } from "firebase/database"; */
 
 const Panel = styled.div`
   position: absolute;
@@ -74,7 +74,7 @@ const Auction = () => {
     onSnapshot(q, (snapshot) => {
       const allDataArr = snapshot.docs.map(
         (doc) =>
-          pictureID == doc.id && {
+          pictureID === doc.id && {
             id: doc.id,
             dateText: doc.data().dateText,
             attachmentUrl: doc.data().attachmentUrl,
@@ -83,7 +83,7 @@ const Auction = () => {
             email: doc.data().email,
           }
       );
-      allDataArr.map((res) => res != false && setFData(res));
+      allDataArr.map((res) => res !== false && setFData(res));
     });
   };
 
@@ -96,11 +96,12 @@ const Auction = () => {
     console.log(value);
   };
 
+
   React.useEffect(() => {
     getData();
-  }, []);
+  }, [FData]);
 
-  const writeUserData = () => {
+  /*   const writeUserData = () => {
     const { id, dateText, attachmentUrl, portfolioText, explainText, email } =
       FData;
 
@@ -113,7 +114,7 @@ const Auction = () => {
       explainText,
       email,
     });
-  };
+  }; */
 
   const radioOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {

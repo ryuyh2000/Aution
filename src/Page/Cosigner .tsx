@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Image from "../Components/Image";
 import Explain from "../Components/Explain";
@@ -59,7 +59,7 @@ const PostBtn = styled.button<{ filledData: boolean }>`
   color: ${(props) => (props.filledData ? "black" : "#b4b4b4")};
 `;
 
-const Cosigner = ({}) => {
+const Cosigner = () => {
   const [image, setImage] = React.useState(3);
   const [explain, setExplain] = React.useState(2);
   const [portfolio, setPortfolio] = React.useState(1);
@@ -103,7 +103,7 @@ const Cosigner = ({}) => {
   const onSubmit = async () => {
     if (authService.currentUser) {
       try {
-        if (imgText != undefined) {
+        if (imgText !== undefined) {
           const UUDI4 = uuidv4();
 
           const userFileRef = ref(
@@ -126,12 +126,13 @@ const Cosigner = ({}) => {
             attachmentUrl,
             email: authService.currentUser.email,
           };
-
+          //@typescript-eslint/no-unused-vars
           const userData = await addDoc(
             collection(dbService, `${localStorage.getItem("email")}`),
             postData
           );
 
+          //@typescript-eslint/no-unused-vars
           const cloudData = await addDoc(
             collection(dbService, `AllData`),
             postData
@@ -163,7 +164,7 @@ const Cosigner = ({}) => {
         <Portfolio PCosignerCallback={handlePortfolio} />
       </PortfolioContainer>
 
-      {explainText && portfolioText && dateText && imgText != undefined ? (
+      {explainText && portfolioText && dateText && imgText !== undefined ? (
         <PostBtn filledData={true} onClick={onSubmit}>
           Post
         </PostBtn>

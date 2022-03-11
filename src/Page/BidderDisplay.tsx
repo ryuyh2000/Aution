@@ -3,12 +3,7 @@ import styled from "styled-components";
 import { collection, getDocs, onSnapshot, query } from "firebase/firestore";
 import { dbService } from "../Firebase";
 import BImgSpace from "../Components/BImgSpace";
-import MarketPrizeGraph from "../Components/MarketPrizeGraph";
 import { Link } from "react-router-dom";
-
-const Asdf = styled.div`
-  color: red;
-`;
 
 const PictureContainer = styled.div`
   display: flex;
@@ -37,9 +32,7 @@ const Bidder = () => {
     },
   ]);
 
-  const [pictureID, setPictureID] = React.useState<string[]>([]);
-
-  let array: FDataType[] = [];
+ 
   const getData = async () => {
     /*     const querySnapshot = await getDocs(collection(dbService, "AllData"));
     querySnapshot.forEach((doc) => {
@@ -77,7 +70,6 @@ const Bidder = () => {
           </Link>
         ))}
       </PictureContainer>
-      <MarketPrizeGraph />
     </>
   );
 };

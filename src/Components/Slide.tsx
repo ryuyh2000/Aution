@@ -42,39 +42,35 @@ const Slide: React.FC<PSlide> = ({ left }) => {
   const [pictureInfo, setPictureInfo] = React.useState<any>();
   const [PPicture, setPPicture] = React.useState([] as number[]);
 
-  let array: any[] = [];
-  let array2: any[] = [];
-
   const lenDataArr = () => {
     setPPicture(
       PPicture.map((res) => (res === PPicture.length - 1 ? 0 : res + 1))
     );
   };
 
-  let DIndex = 0;
-  let DIndexArray: number[] = [];
-
-  const getData = async () => {
-    const querySnapshot = await getDocs(collection(dbService, "AllData"));
-    querySnapshot.forEach((doc) => {
-      array.push(doc.data().attachmentUrl);
-      array2.push({
-        id: doc.id,
-        dateText: doc.data().dateText,
-        attachmentUrl: doc.data().attachmentUrl,
-        portfolioText: doc.data().portfolioText,
-        email: doc.data().email,
-      });
-      DIndexArray.push(DIndex);
-      DIndex++;
-    });
-    setPictureInfo(array2);
-    setPicture(array);
-    setPPicture(DIndexArray);
-  };
-
-  // z index +1
   React.useEffect(() => {
+    let array: any[] = [];
+    let array2: any[] = [];
+    let DIndex = 0;
+    let DIndexArray: number[] = [];
+    const getData = async () => {
+      const querySnapshot = await getDocs(collection(dbService, "AllData"));
+      querySnapshot.forEach((doc) => {
+        array.push(doc.data().attachmentUrl);
+        array2.push({
+          id: doc.id,
+          dateText: doc.data().dateText,
+          attachmentUrl: doc.data().attachmentUrl,
+          portfolioText: doc.data().portfolioText,
+          email: doc.data().email,
+        });
+        DIndexArray.push(DIndex);
+        DIndex++;
+      });
+      setPictureInfo(array2);
+      setPicture(array);
+      setPPicture(DIndexArray);
+    };
     getData();
   }, []);
 

@@ -48,15 +48,16 @@ const Login = () => {
       target: { name, value },
     } = event;
 
-    if (name == "email") {
+    if (name === "email") {
       setEmail(value);
-    } else if (name == "password") {
+    } else if (name === "password") {
       setPassword(value);
     }
   };
 
   const logIn = async () => {
     try {
+      //@typescript-eslint/no-unused-vars
       const data = await signInWithEmailAndPassword(
         authService,
         email,

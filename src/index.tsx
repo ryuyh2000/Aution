@@ -3,7 +3,6 @@ import ReactDom from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { createGlobalStyle } from "styled-components";
-import { normalize } from "styled-normalize";
 
 const GlobalStyle = createGlobalStyle`
   body {
