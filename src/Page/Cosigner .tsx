@@ -125,7 +125,9 @@ const Cosigner = () => {
             dateText,
             attachmentUrl,
             email: authService.currentUser.email,
+            price: 0,
           };
+          
           //@typescript-eslint/no-unused-vars
           const userData = await addDoc(
             collection(dbService, `${localStorage.getItem("email")}`),

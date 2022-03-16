@@ -8,7 +8,7 @@ import styled from "styled-components";
 const Panel = styled.div`
   position: absolute;
   box-shadow: 1px 1px 20px #aaaaaa;
-  left: 30%;
+  left: 25%;
   transform: translateX(-50%);
   width: 500px;
   height: 700px;
@@ -20,7 +20,7 @@ const Panel = styled.div`
 const Panel2 = styled.div`
   position: absolute;
   box-shadow: 1px 1px 20px #aaaaaa;
-  left: 70%;
+  left: 75%;
   transform: translateX(-50%);
   width: 500px;
   height: 700px;
@@ -44,6 +44,26 @@ const TextBox = styled.div`
   margin: 100px 0px 0px 50px;
 `;
 
+const PostPrice = styled.button`
+  width: 100px;
+  height: 30px;
+`;
+
+const PriceArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  top: 50%;
+  input {
+    border: none;
+    border: 2px black solid;
+    border-radius: 10px;
+  }
+`;
+
 interface FDataType {
   dateText: string;
   attachmentUrl: string;
@@ -51,6 +71,7 @@ interface FDataType {
   id: string;
   email: string;
   explainText: string;
+  price: number;
 }
 
 const Auction = () => {
@@ -61,6 +82,7 @@ const Auction = () => {
     portfolioText: "",
     explainText: "",
     email: "",
+    price: 0,
   });
   const [radioValue, setRadioValue] = React.useState([
     "Explain Text",
@@ -81,6 +103,7 @@ const Auction = () => {
             explainText: doc.data().explainText,
             portfolioText: doc.data().portfolioText,
             email: doc.data().email,
+            price: doc.data().price,
           }
       );
       allDataArr.map((res) => res !== false && setFData(res));
@@ -89,32 +112,10 @@ const Auction = () => {
 
   const postPrice = () => {};
 
-  const setPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = event;
-    console.log(value);
+  const setPrice = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const button: HTMLButtonElement = event.currentTarget;
+    console.log(button.name);
   };
-
-
-  React.useEffect(() => {
-    getData();
-  }, [FData]);
-
-  /*   const writeUserData = () => {
-    const { id, dateText, attachmentUrl, portfolioText, explainText, email } =
-      FData;
-
-    const db = getDatabase();
-    const sdf = set(ref(db, `users/${FData.id}`), {
-      id,
-      dateText,
-      attachmentUrl,
-      portfolioText,
-      explainText,
-      email,
-    });
-  }; */
 
   const radioOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
@@ -123,14 +124,27 @@ const Auction = () => {
     setRadioCheck(value);
   };
 
+  const moneyArr = [1000, 10000, 100000];
+
+  React.useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <>
       <Panel>
         <Image src={FData.attachmentUrl} />
-        <input type="number" placeholder="price" onChange={setPrice} />
-        <button onClick={postPrice}>post</button>
       </Panel>
+      <PriceArea>
+        <label>price</label>
+        {moneyArr.map((res, index) => (
+          <button name={`${res}`} key={index} onClick={setPrice}>
+            +{res}
+          </button>
+        ))}
 
+        <PostPrice onClick={postPrice}>post</PostPrice>
+      </PriceArea>
       <Panel2>
         <TextBox>
           {radioCheck === "Explain Text" ? (
@@ -151,6 +165,8 @@ const Auction = () => {
             <label>{value}</label>
           </React.Fragment>
         ))}
+        <br />
+        price:{FData.price}
         <br />
         date: {FData.dateText}
         <br />

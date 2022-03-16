@@ -48,29 +48,31 @@ const Slide: React.FC<PSlide> = ({ left }) => {
     );
   };
 
-  React.useEffect(() => {
-    let array: any[] = [];
-    let array2: any[] = [];
-    let DIndex = 0;
-    let DIndexArray: number[] = [];
-    const getData = async () => {
-      const querySnapshot = await getDocs(collection(dbService, "AllData"));
-      querySnapshot.forEach((doc) => {
-        array.push(doc.data().attachmentUrl);
-        array2.push({
-          id: doc.id,
-          dateText: doc.data().dateText,
-          attachmentUrl: doc.data().attachmentUrl,
-          portfolioText: doc.data().portfolioText,
-          email: doc.data().email,
-        });
-        DIndexArray.push(DIndex);
-        DIndex++;
+  let array: any[] = [];
+  let array2: any[] = [];
+  let DIndex = 0;
+  let DIndexArray: number[] = [];
+
+  const getData = async () => {
+    const querySnapshot = await getDocs(collection(dbService, "AllData"));
+    querySnapshot.forEach((doc) => {
+      array.push(doc.data().attachmentUrl);
+      array2.push({
+        id: doc.id,
+        dateText: doc.data().dateText,
+        attachmentUrl: doc.data().attachmentUrl,
+        portfolioText: doc.data().portfolioText,
+        email: doc.data().email,
       });
-      setPictureInfo(array2);
-      setPicture(array);
-      setPPicture(DIndexArray);
-    };
+      DIndexArray.push(DIndex);
+      DIndex++;
+    });
+    setPictureInfo(array2);
+    setPicture(array);
+    setPPicture(DIndexArray);
+  };
+
+  React.useEffect(() => {
     getData();
   }, []);
 
@@ -86,7 +88,7 @@ const Slide: React.FC<PSlide> = ({ left }) => {
       {picture && (
         <>
           {picture.map((res: string, key: number) => (
-            <Link to={`/auction/${pictureInfo[key].id}`} key={key}>
+            <React.Fragment key={key}>
               <SlideObject
                 PPLength={PPicture.length}
                 SOpacity={PPicture[key]}
@@ -99,7 +101,7 @@ const Slide: React.FC<PSlide> = ({ left }) => {
               <SlideInfo SOpacity={PPicture[key]} PPLength={PPicture.length}>
                 {pictureInfo[key].explainText}
               </SlideInfo>
-            </Link>
+            </React.Fragment>
           ))}
         </>
       )}
