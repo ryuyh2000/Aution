@@ -2,5 +2,5 @@
 
 ## To Do
 
-* [o] Firebase authentic
+* [] Firebase authentic
 
